@@ -544,7 +544,7 @@ impl<T: ReadWriteSeek> FileSystem<T> {
         self.unmount_internal()
     }
 
-    fn unmount_internal(&self) -> io::Result<()> {
+    pub fn unmount_internal(&self) -> io::Result<()> {
         self.flush_fs_info()?;
         self.set_dirty_flag(false)?;
         Ok(())

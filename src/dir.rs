@@ -192,6 +192,22 @@ impl<'a, T: ReadWriteSeek + 'a> Dir<'a, T> {
         Ok(e.to_file())
     }
 
+    /// Meta data on a File or directory entry.
+    ///
+    /// `path` is a '/' separated file path relative to self directory.
+    pub fn open_meta(&self, path: &str) -> io::Result<DirEntry<'a, T>> {
+        trace!("open_file {}", path);
+        // traverse path
+        let (name, rest_opt) = split_path(path);
+        if let Some(rest) = rest_opt {
+            let e = self.find_entry(name, Some(true), None)?;
+            return e.to_dir().open_meta(rest);
+        }
+        // return entry
+        let e = self.find_entry(name, None, None)?;
+        Ok(e)
+    }
+
     /// Creates new or opens existing file=.
     ///
     /// `path` is a '/' separated file path relative to self directory.

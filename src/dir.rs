@@ -196,7 +196,7 @@ impl<'a, T: ReadWriteSeek + 'a> Dir<'a, T> {
     ///
     /// `path` is a '/' separated file path relative to self directory.
     pub fn open_meta(&self, path: &str) -> io::Result<DirEntry<'a, T>> {
-        trace!("open_file {}", path);
+        trace!("open_meta {}", path);
         // traverse path
         let (name, rest_opt) = split_path(path);
         if let Some(rest) = rest_opt {
